@@ -1,25 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
-class Dishdetail extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state={
-
-    }
-  }
-
-  formatDate({ date }) {
+  /*formatDate( date ) {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric"
     });
-  }
+  }*/
 
-  renderDish(dish) {
+  const RenderDish = ({dish}) => {
     if (dish != null) {
         return(
             <Card>
@@ -38,15 +28,14 @@ class Dishdetail extends Component {
     }
   }
 
-  renderComments(comments){
+  const RenderComments= ({comments}) => {
     if(comments!=null) {
       let list= comments.map((comments)=>{
-        let date=comments.date;
         return (
           <li key={comments.id}>
             <div>
               <p>{comments.comment}</p>
-              <p>--{comments.author},{this.formatDate({date})}</p>
+              <p>--{comments.author},{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments.date)))}</p>
             </div>
           </li>
         );
@@ -67,18 +56,17 @@ class Dishdetail extends Component {
     }
   }
 
-  render(){
+  const DishDetail= (props) => {
 
-    const dishSelect=this.props.dish;
-    if(dishSelect!=null){
+    if(props.dish !=null){
       return(
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-5 m-1">
-              {this.renderDish(dishSelect)}
+              <RenderDish dish={props.dish} />
             </div>
             <div className="col-12 col-md-5 m-1">
-              {this.renderComments(dishSelect.comments)}
+              <RenderComments comments={props.dish.comments} />
             </div>
           </div>
         </div>
@@ -90,6 +78,6 @@ class Dishdetail extends Component {
       );
     }
   }
-}
 
-export default Dishdetail;
+
+export default DishDetail;
